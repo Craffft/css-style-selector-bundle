@@ -1,0 +1,34 @@
+{
+    "name": "craffft/css-style-selector-bundle",
+    "type": "symfony-bundle",
+    "description": "Contao 4 Css Style Selector bundle",
+    "keywords": ["css", "selector", "list", "classes"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Kiesel",
+            "homepage": "https://github.com/iCodr8"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/Craffft/css-style-selector-bundle/issues",
+        "source": "https://github.com/Craffft/css-style-selector-bundle"
+    },
+    "require": {
+        "php": ">=5.4.0",
+        "contao/core-bundle": "~4.1"
+    },
+    "conflict": {
+        "contao/core": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Craffft\\CssStyleSelectorBundle\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "4.2.x-dev"
+        }
+    }
+}
