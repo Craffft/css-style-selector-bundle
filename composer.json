@@ -1,6 +1,6 @@
 {
     "name": "craffft/css-style-selector-bundle",
-    "type": "symfony-bundle",
+    "type": "contao-bundle",
     "description": "Contao 4 Css Style Selector bundle",
     "keywords": ["css", "selector", "list", "classes"],
     "license": "MIT",
