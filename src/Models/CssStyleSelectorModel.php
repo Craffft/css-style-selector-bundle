@@ -18,6 +18,7 @@ class CssStyleSelectorModel extends Model
 {
     const TYPE_ARTICLE = 'article';
     const TYPE_CONTENT = 'content';
+    const TYPE_FORM = 'form';
     const TYPE_FORM_FIELD = 'form_field';
     const TYPE_LAYOUT = 'layout';
     const TYPE_NEWS = 'news';
