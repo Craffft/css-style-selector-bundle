@@ -30,7 +30,7 @@ class CssStyleSelectorUtil
             return false;
         }
 
-        $arrCssID = $this->getCssIDValue($dc);
+        $arrCssID = $this->getCssIDValue($dc, $specialName);
         $arrClasses = $this->getClassesFromCssIDAsArray($arrCssID);
 
         // Remove all known cssStyleSelector classes from cssID classes
@@ -59,7 +59,7 @@ class CssStyleSelectorUtil
             return false;
         }
 
-        $strCssClasses = $this->getCssClassValue($dc);
+        $strCssClasses = $this->getCssClassValue($dc, $specialName);
         $arrClasses = $this->convertClassesStringToArray($strCssClasses);
 
         // Remove all known cssStyleSelector classes from cssID classes
@@ -77,21 +77,23 @@ class CssStyleSelectorUtil
     }
 
     /**
-     * @param integer $intId
+     * @param $intId
+     * @param string $specialName
      * @return string
      */
-    protected function getCssIDName($intId)
+    protected function getCssIDName($intId, $specialName = 'cssID')
     {
-        return 'cssID' . ((Input::get('act') == 'editAll') ? '_' . $intId : '');
+        return $specialName . ((Input::get('act') == 'editAll') ? '_' . $intId : '');
     }
 
     /**
      * @param DataContainer $dc
+     * @param string $specialName
      * @return array
      */
-    protected function getCssIDValue(DataContainer $dc)
+    protected function getCssIDValue(DataContainer $dc, $specialName = 'cssID')
     {
-        $arrCssID = Input::post($this->getCssIDName($dc->id));
+        $arrCssID = Input::post($this->getCssIDName($dc->id, $specialName));
 
         if ($arrCssID === null) {
             $arrCssID = deserialize($dc->activeRecord->cssID);
@@ -105,21 +107,23 @@ class CssStyleSelectorUtil
     }
 
     /**
-     * @param integer $intId
+     * @param $intId
+     * @param string $specialName
      * @return string
      */
-    protected function getCssClassName($intId)
+    protected function getCssClassName($intId, $specialName = 'cssClass')
     {
-        return 'cssClass' . ((Input::get('act') == 'editAll') ? '_' . $intId : '');
+        return $specialName . ((Input::get('act') == 'editAll') ? '_' . $intId : '');
     }
 
     /**
      * @param DataContainer $dc
-     * @return array
+     * @param string $specialName
+     * @return string
      */
-    protected function getCssClassValue(DataContainer $dc)
+    protected function getCssClassValue(DataContainer $dc, $specialName = 'cssClass')
     {
-        $strCssClass = Input::post($this->getCssClassName($dc->id));
+        $strCssClass = Input::post($this->getCssClassName($dc->id, $specialName));
 
         if ($strCssClass === null) {
             $strCssClass = $dc->activeRecord->cssClass;
@@ -154,7 +158,7 @@ class CssStyleSelectorUtil
      */
     protected function saveClassesToCssID(array $arrClasses, DataContainer $dc, $specialName = 'cssID')
     {
-        $strCssIDName = $this->getCssIDName($dc->id);
+        $strCssIDName = $this->getCssIDName($dc->id, $specialName);
 
         $arrPostedCssID = Input::post($strCssIDName);
         $arrPostedCssID[1] = implode(' ', $arrClasses);
