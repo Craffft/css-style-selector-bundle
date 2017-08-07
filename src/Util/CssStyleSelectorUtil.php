@@ -21,9 +21,10 @@ class CssStyleSelectorUtil
     /**
      * @param $varValue
      * @param DataContainer $dc
-     * @return mixed
+     * @param string $specialName
+     * @return bool
      */
-    public function saveCssIdCallback($varValue, DataContainer $dc)
+    public function saveCssIdCallback($varValue, DataContainer $dc, $specialName = 'cssID')
     {
         if (!$dc->activeRecord) {
             return false;
@@ -41,7 +42,7 @@ class CssStyleSelectorUtil
 
         $arrClasses = array_unique($arrClasses);
 
-        $this->saveClassesToCssID($arrClasses, $dc);
+        $this->saveClassesToCssID($arrClasses, $dc, $specialName);
 
         return $varValue;
     }
@@ -49,9 +50,10 @@ class CssStyleSelectorUtil
     /**
      * @param $varValue
      * @param DataContainer $dc
-     * @return mixed
+     * @param string $specialName
+     * @return bool
      */
-    public function saveCssClassCallback($varValue, DataContainer $dc)
+    public function saveCssClassCallback($varValue, DataContainer $dc, $specialName = 'cssClass')
     {
         if (!$dc->activeRecord) {
             return false;
@@ -69,7 +71,7 @@ class CssStyleSelectorUtil
 
         $arrClasses = array_unique($arrClasses);
 
-        $this->saveClassesToCssClass($arrClasses, $dc);
+        $this->saveClassesToCssClass($arrClasses, $dc, $specialName);
 
         return $varValue;
     }
@@ -148,8 +150,9 @@ class CssStyleSelectorUtil
     /**
      * @param array $arrClasses
      * @param DataContainer $dc
+     * @param string $specialName
      */
-    protected function saveClassesToCssID(array $arrClasses, DataContainer $dc)
+    protected function saveClassesToCssID(array $arrClasses, DataContainer $dc, $specialName = 'cssID')
     {
         $strCssIDName = $this->getCssIDName($dc->id);
 
@@ -162,15 +165,16 @@ class CssStyleSelectorUtil
         Input::setPost($strCssIDName, $arrPostedCssID);
 
         $objDatabase = Database::getInstance();
-        $objDatabase->prepare("UPDATE $dc->table SET cssID=? WHERE id=?")
+        $objDatabase->prepare("UPDATE $dc->table SET " . $specialName . "=? WHERE id=?")
             ->execute(serialize($arrPostedCssID), $dc->id);
     }
 
     /**
      * @param array $arrClasses
      * @param DataContainer $dc
+     * @param string $specialName
      */
-    protected function saveClassesToCssClass(array $arrClasses, DataContainer $dc)
+    protected function saveClassesToCssClass(array $arrClasses, DataContainer $dc, $specialName = 'cssClass')
     {
         $strCssClassName = $this->getCssClassName($dc->id);
 
@@ -182,7 +186,7 @@ class CssStyleSelectorUtil
         Input::setPost($strCssClassName, $strClasses);
 
         $objDatabase = Database::getInstance();
-        $objDatabase->prepare("UPDATE $dc->table SET cssClass=? WHERE id=?")
+        $objDatabase->prepare("UPDATE $dc->table SET " . $specialName . "=? WHERE id=?")
             ->execute($strClasses, $dc->id);
     }
 
