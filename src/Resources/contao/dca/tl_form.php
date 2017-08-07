@@ -32,7 +32,8 @@ if (isset($GLOBALS['TL_DCA']['tl_form'])) {
         (
             function ($varValue, \DataContainer $dc) {
                 $cssStyleSelectorUtil = new Craffft\CssStyleSelectorBundle\Util\CssStyleSelectorUtil();
-                $cssStyleSelectorUtil->saveCssIdCallback($varValue, $dc, 'attributes');
+
+                return $cssStyleSelectorUtil->saveCssIdCallback($varValue, $dc, 'attributes');
             }
         ),
         'sql'              => "blob NULL"

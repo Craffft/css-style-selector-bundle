@@ -35,6 +35,8 @@ $GLOBALS['TL_LANG']['tl_css_style_selector']['disableInPage'] = array('In Seiten
  */
 $GLOBALS['TL_LANG']['tl_css_style_selector']['articleEnabled'] = array('Artikel', 'In Artikel aktiviert');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['contentEnabled'] = array('CE', 'In Content Element aktiviert');
+$GLOBALS['TL_LANG']['tl_css_style_selector']['formEnabled'] = array('Formular', 'In Formular aktiviert');
+$GLOBALS['TL_LANG']['tl_css_style_selector']['formFieldEnabled'] = array('Formular Feld', 'In Formular Feld aktiviert');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['layoutEnabled'] = array('Layout', 'In Layout aktiviert');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['moduleEnabled'] = array('Modul', 'In Modul aktiviert');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['newsEnabled'] = array('Neuigkeiten', 'In Neuigkeiten aktiviert');

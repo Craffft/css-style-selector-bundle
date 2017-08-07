@@ -35,6 +35,8 @@ $GLOBALS['TL_LANG']['tl_css_style_selector']['disableInPage'] = array('Disable i
  */
 $GLOBALS['TL_LANG']['tl_css_style_selector']['articleEnabled'] = array('Article', 'Enabled in articles.');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['contentEnabled'] = array('Content element', 'Enabled in content elements.');
+$GLOBALS['TL_LANG']['tl_css_style_selector']['formEnabled'] = array('Form', 'Enabled in forms.');
+$GLOBALS['TL_LANG']['tl_css_style_selector']['formFieldEnabled'] = array('Form', 'Enabled in form fields.');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['layoutEnabled'] = array('Page layout', 'Enabled in page layouts.');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['moduleEnabled'] = array('Module', 'Enabled in modules.');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['newsEnabled'] = array('News', 'Enabled in news.');
