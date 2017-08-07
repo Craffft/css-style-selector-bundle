@@ -180,7 +180,7 @@ class CssStyleSelectorUtil
      */
     protected function saveClassesToCssClass(array $arrClasses, DataContainer $dc, $specialName = 'cssClass')
     {
-        $strCssClassName = $this->getCssClassName($dc->id);
+        $strCssClassName = $this->getCssClassName($dc->id, $specialName);
 
         $strClasses = implode(' ', $arrClasses);
         $strClasses = str_replace('  ', ' ', $strClasses);
