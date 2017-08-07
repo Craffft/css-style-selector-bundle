@@ -36,6 +36,8 @@ class CssStyleSelectorModel extends Model
         return array(
             self::TYPE_ARTICLE,
             self::TYPE_CONTENT,
+            self::TYPE_FORM,
+            self::TYPE_FORM_FIELD,
             self::TYPE_LAYOUT,
             self::TYPE_NEWS,
             self::TYPE_MODEL,
