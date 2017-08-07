@@ -17,6 +17,7 @@ use Contao\Model;
 class CssStyleSelectorModel extends Model
 {
     const TYPE_ARTICLE = 'article';
+    const TYPE_CALENDAR_EVENTS = 'calendarEvent';
     const TYPE_CONTENT = 'content';
     const TYPE_FORM = 'form';
     const TYPE_FORM_FIELD = 'formField';
@@ -35,6 +36,7 @@ class CssStyleSelectorModel extends Model
     {
         return array(
             self::TYPE_ARTICLE,
+            self::TYPE_CALENDAR_EVENTS,
             self::TYPE_CONTENT,
             self::TYPE_FORM,
             self::TYPE_FORM_FIELD,

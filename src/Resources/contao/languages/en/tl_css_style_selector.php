@@ -22,6 +22,7 @@ $GLOBALS['TL_LANG']['tl_css_style_selector']['permissions_legend'] = 'Permission
 $GLOBALS['TL_LANG']['tl_css_style_selector']['styleDesignation'] = array('Style name', 'Please provide a name for this style.');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['cssClasses'] = array('CSS classes', 'Please provide one or more CSS classes separated by spaces.');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['disableInArticle'] = array('Disable in articles', 'Choose this option if you wish to disable this style in articles.');
+$GLOBALS['TL_LANG']['tl_css_style_selector']['disableInCalendarEvent'] = array('Disable in calendar events', 'Choose this option if you wish to disable this style in calendar events.');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['disableInContent'] = array('Disable in content elements', 'Choose this option if you wish to disable this style in content elements.');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['disableInForm'] = array('Disable in forms', 'Choose this option if you wish to disable this style in forms.');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['disableInFormField'] = array('Disable in form fields', 'Choose this option if you wish to disable this style in form fields.');
@@ -34,6 +35,7 @@ $GLOBALS['TL_LANG']['tl_css_style_selector']['disableInPage'] = array('Disable i
  * Labels
  */
 $GLOBALS['TL_LANG']['tl_css_style_selector']['articleEnabled'] = array('Article', 'Enabled in articles.');
+$GLOBALS['TL_LANG']['tl_css_style_selector']['calendarEventEnabled'] = array('Calendar events', 'Enabled in calendar events.');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['contentEnabled'] = array('Content element', 'Enabled in content elements.');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['formEnabled'] = array('Form', 'Enabled in forms.');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['formFieldEnabled'] = array('Form', 'Enabled in form fields.');

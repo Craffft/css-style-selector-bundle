@@ -22,6 +22,7 @@ $GLOBALS['TL_LANG']['tl_css_style_selector']['permissions_legend'] = 'Berechtigu
 $GLOBALS['TL_LANG']['tl_css_style_selector']['styleDesignation'] = array('Stil Bezeichnung', 'Bitte geben Sie eine Stil Bezeichnung ein.');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['cssClasses'] = array('CSS-Klassen', 'Bitte geben Sie eine oder mehrere CSS-Klassen mit jeweils einem Leerzeichen getrennt ein.');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['disableInArticle'] = array('In Artikeln deaktivieren', 'Bitte wählen Sie dieses Feld aus, um den Stil in den Artikeln zu deaktivieren.');
+$GLOBALS['TL_LANG']['tl_css_style_selector']['disableInCalendarEvent'] = array('In Kalender Terminen deaktivieren', 'Bitte wählen Sie dieses Feld aus, um den Stil in den Kalender Terminen zu deaktivieren.');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['disableInContent'] = array('In Content Elementen deaktivieren', 'Bitte wählen Sie dieses Feld aus, um den Stil in den Content Elementen zu deaktivieren.');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['disableInForm'] = array('In Formularen deaktivieren', 'Bitte wählen Sie dieses Feld aus, um den Stil in den Formularen zu deaktivieren.');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['disableInFormField'] = array('In Formularfeldern deaktivieren', 'Bitte wählen Sie dieses Feld aus, um den Stil in den Formularfeldern zu deaktivieren.');
@@ -34,6 +35,7 @@ $GLOBALS['TL_LANG']['tl_css_style_selector']['disableInPage'] = array('In Seiten
  * Labels
  */
 $GLOBALS['TL_LANG']['tl_css_style_selector']['articleEnabled'] = array('Artikel', 'In Artikel aktiviert');
+$GLOBALS['TL_LANG']['tl_css_style_selector']['calendarEventEnabled'] = array('Termin', 'In Kalender Termin aktiviert');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['contentEnabled'] = array('CE', 'In Content Element aktiviert');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['formEnabled'] = array('Formular', 'In Formular aktiviert');
 $GLOBALS['TL_LANG']['tl_css_style_selector']['formFieldEnabled'] = array('Formular Feld', 'In Formular Feld aktiviert');
