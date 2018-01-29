@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Craffft\CssStyleSelectorBundle\ContaoManager;
 
 use Contao\CoreBundle\ContaoCoreBundle;
@@ -18,16 +20,8 @@ use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Craffft\CssStyleSelectorBundle\CraffftCssStyleSelectorBundle;
 use MadeYourDay\RockSolidCustomElements\RockSolidCustomElementsBundle;
 
-/**
- * Plugin for the Contao Manager.
- *
- * @author Fritz Michael Gschwantner <fmg@inspiredminds.at>
- */
 class Plugin implements BundlePluginInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getBundles(ParserInterface $parser)
     {
         return [

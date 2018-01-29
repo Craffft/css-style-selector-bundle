@@ -10,10 +10,8 @@
  */
 
 if (isset($GLOBALS['TL_DCA']['tl_content'])) {
-    // Palettes
-    foreach ($GLOBALS['TL_DCA']['tl_content']['palettes'] as $k => $v) {
-        $GLOBALS['TL_DCA']['tl_content']['palettes'][$k] = str_replace(',cssID', ',cssStyleSelector,cssID', $v);
-    }
+    // Callbacks
+    $GLOBALS['TL_DCA']['tl_content']['config']['onload_callback'][] = array('Craffft\CssStyleSelectorBundle\Util\CssStyleSelectorUtil', 'onLoadContentCallback');
 
     // Fields
     $GLOBALS['TL_DCA']['tl_content']['fields']['cssStyleSelector'] = array

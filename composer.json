@@ -3,6 +3,7 @@
     "type": "contao-bundle",
     "description": "Contao 4 Css Style Selector bundle",
     "keywords": ["css", "selector", "list", "classes"],
+    "homepage":"https://craffft.de",
     "license": "MIT",
     "authors": [
         {
@@ -15,25 +16,22 @@
         "source": "https://github.com/Craffft/css-style-selector-bundle"
     },
     "require": {
-        "php": ">=5.4.0",
-        "contao/core-bundle": "~4.1"
+        "php": ">=7.1",
+        "contao/core-bundle": "~4.4"
     },
     "require-dev": {
-         "contao/manager-plugin": "^2.0"
+        "contao/manager-plugin": "^2.0"
     },
     "conflict": {
         "contao/core": "*",
         "contao/manager-plugin": "<2.0 || >=3.0"
     },
+    "extra": {
+        "contao-manager-plugin": "Craffft\\CssStyleSelectorBundle\\ContaoManager\\Plugin"
+    },
     "autoload": {
         "psr-4": {
             "Craffft\\CssStyleSelectorBundle\\": "src/"
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-develop": "4.2.x-dev"
-        },
-        "contao-manager-plugin": "Craffft\\CssStyleSelectorBundle\\ContaoManager\\Plugin"
     }
 }
