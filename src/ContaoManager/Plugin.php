@@ -9,27 +9,23 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Craffft\CssStyleSelectorBundle\ContaoManager;
 
+use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
+use Craffft\CssStyleSelectorBundle\CraffftCssStyleSelectorBundle;
 
-/**
- * Plugin for the Contao Manager.
- *
- * @author Fritz Michael Gschwantner <fmg@inspiredminds.at>
- */
 class Plugin implements BundlePluginInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getBundles(ParserInterface $parser)
     {
         return [
-            BundleConfig::create('Craffft\CssStyleSelectorBundle\CraffftCssStyleSelectorBundle')
-                ->setLoadAfter(['Contao\CoreBundle\ContaoCoreBundle'])
+            BundleConfig::create(CraffftCssStyleSelectorBundle::class)
+                ->setLoadAfter([ContaoCoreBundle::class])
                 ->setReplace(['css-style-selector']),
         ];
     }
