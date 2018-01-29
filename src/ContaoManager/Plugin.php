@@ -14,10 +14,11 @@ declare(strict_types=1);
 namespace Craffft\CssStyleSelectorBundle\ContaoManager;
 
 use Contao\CoreBundle\ContaoCoreBundle;
-use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
+use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Craffft\CssStyleSelectorBundle\CraffftCssStyleSelectorBundle;
+use MadeYourDay\RockSolidCustomElements\RockSolidCustomElementsBundle;
 
 class Plugin implements BundlePluginInterface
 {
@@ -25,7 +26,7 @@ class Plugin implements BundlePluginInterface
     {
         return [
             BundleConfig::create(CraffftCssStyleSelectorBundle::class)
-                ->setLoadAfter([ContaoCoreBundle::class])
+                ->setLoadAfter([ContaoCoreBundle::class, RockSolidCustomElementsBundle::class])
                 ->setReplace(['css-style-selector']),
         ];
     }
