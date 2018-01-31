@@ -111,7 +111,7 @@ class CssStyleSelectorUtil
         }
 
         // The palette might not exist
-        if (\array_key_exists($type, $GLOBALS['TL_DCA'][$dc->table]['palettes'][$type])) {
+        if (\array_key_exists($type, $GLOBALS['TL_DCA'][$dc->table]['palettes'])) {
 
             // Get the palette
             $palette = &$GLOBALS['TL_DCA'][$dc->table]['palettes'][$type];
