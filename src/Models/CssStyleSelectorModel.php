@@ -95,7 +95,7 @@ class CssStyleSelectorModel extends Model
         $objDatabase = Database::getInstance();
 
         $objCssStyleSelector = $objDatabase
-            ->prepare("SELECT id, styleDesignation FROM $t WHERE disableIn" . ucfirst($strType) . "=? ORDER BY styleDesignation ASC")
+            ->prepare("SELECT id, CONCAT(styleDesignation, ' (', cssClasses, ')') AS styleDesignation FROM $t WHERE disableIn" . ucfirst($strType) . "=? ORDER BY styleDesignation ASC")
             ->execute(0);
 
         return $objCssStyleSelector->fetchEach('styleDesignation');
