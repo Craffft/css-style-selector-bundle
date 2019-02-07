@@ -81,8 +81,12 @@ class CssStyleSelectorUtil
      * @param  DataContainer $dc
      * @return void
      */
-    public function onLoadContentCallback(DataContainer $dc)
+    public function onLoadContentCallback($dc)
     {
+        if (!($dc instanceof DataContainer)) {
+            return;
+        }
+        
         // Get the type
         $type = null;
         if (Input::post('FORM_SUBMIT') === $dc->table) {
