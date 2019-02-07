@@ -75,7 +75,7 @@ $GLOBALS['TL_DCA']['tl_css_style_selector'] = array
             'copy'   => array
             (
                 'label'               => &$GLOBALS['TL_LANG']['tl_css_style_selector']['copy'],
-                'href'                => 'act=paste&amp;mode=copy',
+                'href'                => 'act=copy',
                 'icon'                => 'copy.gif',
             ),
             'delete' => array
