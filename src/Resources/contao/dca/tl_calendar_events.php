@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-if (isset($GLOBALS['TL_DCA']['tl_calendar_events'])) {
+if (isset($GLOBALS['TL_DCA']['tl_calendar_events'] && isset($GLOBALS['TL_DCA']['tl_calendar_events']['palettes']))) {
     // Palettes
     foreach ($GLOBALS['TL_DCA']['tl_calendar_events']['palettes'] as $k => $v) {
         $GLOBALS['TL_DCA']['tl_calendar_events']['palettes'][$k] = str_replace(',cssClass', ',cssStyleSelector,cssClass', $v);
