@@ -98,6 +98,10 @@ class CssStyleSelectorModel extends Model
             ->prepare("SELECT id, styleDesignation AS styleDesignation FROM $t WHERE disableIn" . ucfirst($strType) . "=? ORDER BY styleDesignation ASC")
             ->execute(0);
 
-        return $objCssStyleSelector->fetchEach('styleDesignation');
+        $styles = $objCssStyleSelector->fetchEach('styleDesignation');
+
+        natsort($styles);
+
+        return $styles;
     }
 }
