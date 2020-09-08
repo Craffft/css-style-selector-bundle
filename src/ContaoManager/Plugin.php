@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Craffft\CssStyleSelectorBundle\ContaoManager;
 
 use Contao\CoreBundle\ContaoCoreBundle;
+use Contao\NewsBundle\ContaoNewsBundle;
+use Contao\CalendarBundle\ContaoCalendarBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
@@ -26,7 +28,7 @@ class Plugin implements BundlePluginInterface
     {
         return [
             BundleConfig::create(CraffftCssStyleSelectorBundle::class)
-                ->setLoadAfter([ContaoCoreBundle::class, RockSolidCustomElementsBundle::class])
+                ->setLoadAfter([ContaoCoreBundle::class, ContaoNewsBundle::class, ContaoCalendarBundle::class, RockSolidCustomElementsBundle::class])
                 ->setReplace(['css-style-selector']),
         ];
     }
