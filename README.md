@@ -1,7 +1,6 @@
-Contao 4 Css Style Selector Bundle
+CSS Style Selector Bundle
 =======================
-
-This Contao extension is a CSS style selector for content elements in Contao.
+This extension allows backend users to use predefined styles in articles, news, content elements, and many more. It's easy to use because it uses clear names for every style. The selected styles are then set to their corresponding CSS class, which can be styled as usual. It's really helpful if you want to set up a simple system for the end-user.
 
 ### CSS styles can be defined here
 
