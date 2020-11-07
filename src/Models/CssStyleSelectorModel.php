@@ -51,39 +51,39 @@ class CssStyleSelectorModel extends Model
     {
         switch ($table) {
             case 'tl_article':
-                $type = CssStyleSelectorModel::TYPE_ARTICLE;
+                $type = self::TYPE_ARTICLE;
                 break;
 
             case 'tl_calendar_events':
-                $type = CssStyleSelectorModel::TYPE_CALENDAR_EVENTS;
+                $type = self::TYPE_CALENDAR_EVENTS;
                 break;
 
             case 'tl_content':
-                $type = CssStyleSelectorModel::TYPE_CONTENT;
+                $type = self::TYPE_CONTENT;
                 break;
 
             case 'tl_form':
-                $type = CssStyleSelectorModel::TYPE_FORM;
+                $type = self::TYPE_FORM;
                 break;
 
             case 'tl_form_field':
-                $type = CssStyleSelectorModel::TYPE_FORM_FIELD;
+                $type = self::TYPE_FORM_FIELD;
                 break;
 
             case 'tl_layout':
-                $type = CssStyleSelectorModel::TYPE_LAYOUT;
+                $type = self::TYPE_LAYOUT;
                 break;
 
             case 'tl_news':
-                $type = CssStyleSelectorModel::TYPE_NEWS;
+                $type = self::TYPE_NEWS;
                 break;
 
             case 'tl_model':
-                $type = CssStyleSelectorModel::TYPE_MODEL;
+                $type = self::TYPE_MODEL;
                 break;
 
             case 'tl_page':
-                $type = CssStyleSelectorModel::TYPE_PAGE;
+                $type = self::TYPE_PAGE;
                 break;
 
             default:
