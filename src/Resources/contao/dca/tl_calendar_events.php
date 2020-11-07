@@ -9,31 +9,17 @@
  * file that was distributed with this source code.
  */
 
-if (isset($GLOBALS['TL_DCA']['tl_calendar_events']) && isset($GLOBALS['TL_DCA']['tl_calendar_events']['palettes'])) {
-    // Palettes
-    foreach ($GLOBALS['TL_DCA']['tl_calendar_events']['palettes'] as $k => $v) {
-        $GLOBALS['TL_DCA']['tl_calendar_events']['palettes'][$k] = str_replace(
-            ',cssClass',
-            ',cssStyleSelector,cssClass',
-            $v
-        );
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Craffft\CssStyleSelectorBundle\DCA\Field\CssStyleSelector;
+
+if (isset($GLOBALS['TL_DCA']['tl_calendar_events'])) {
+    if (isset($GLOBALS['TL_DCA']['tl_calendar_events']['palettes'])) {
+        foreach ($GLOBALS['TL_DCA']['tl_calendar_events']['palettes'] as $k => $v) {
+            PaletteManipulator::create()
+                ->addField('cssStyleSelector', 'cssClass', PaletteManipulator::POSITION_BEFORE)
+                ->applyToPalette($k, 'tl_calendar_events');
+        }
     }
 
-    // Fields
-    $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['cssStyleSelector'] = [
-        'label' => &$GLOBALS['TL_LANG']['MSC']['cssStyleSelector'],
-        'exclude' => true,
-        'inputType' => 'select',
-        'options_callback' => function () {
-            return \Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel::findStyleDesignationByNotDisabledType(
-                \Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel::TYPE_CALENDAR_EVENTS
-            );
-        },
-        'search' => true,
-        'eval' => ['chosen' => true, 'multiple' => true, 'tl_class' => 'clr'],
-        'save_callback' => [
-            ['Craffft\\CssStyleSelectorBundle\\Util\\CssStyleSelectorUtil', 'saveCssClassCallback'],
-        ],
-        'sql' => "blob NULL",
-    ];
+    $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['cssStyleSelector'] = CssStyleSelector::getFieldConfig();
 }

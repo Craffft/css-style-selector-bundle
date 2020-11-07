@@ -9,27 +9,9 @@
  * file that was distributed with this source code.
  */
 
-if (isset($GLOBALS['TL_DCA']['tl_content'])) {
-    // Callbacks
-    $GLOBALS['TL_DCA']['tl_content']['config']['onload_callback'][] = array('Craffft\CssStyleSelectorBundle\Util\CssStyleSelectorUtil', 'onLoadContentCallback');
+use Craffft\CssStyleSelectorBundle\DCA\Field\CssStyleSelector;
 
-    // Fields
-    $GLOBALS['TL_DCA']['tl_content']['fields']['cssStyleSelector'] = array
-    (
-        'label'            => &$GLOBALS['TL_LANG']['MSC']['cssStyleSelector'],
-        'exclude'          => true,
-        'inputType'        => 'select',
-        'options_callback' => function () {
-            return \Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel::findStyleDesignationByNotDisabledType(
-                \Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel::TYPE_CONTENT
-            );
-        },
-        'search'           => true,
-        'eval'             => array('chosen' => true, 'multiple' => true, 'tl_class' => 'clr'),
-        'save_callback'    => array
-        (
-            array('Craffft\\CssStyleSelectorBundle\\Util\\CssStyleSelectorUtil', 'saveCssIdCallback')
-        ),
-        'sql'              => "blob NULL"
-    );
+if (isset($GLOBALS['TL_DCA']['tl_content'])) {
+    // This field will be added to the palette by CssStyleSelectorListener::onLoadContent()
+    $GLOBALS['TL_DCA']['tl_content']['fields']['cssStyleSelector'] = CssStyleSelector::getFieldConfig();
 }

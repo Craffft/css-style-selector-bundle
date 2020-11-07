@@ -1,0 +1,9 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Craffft\CssStyleSelectorBundle\:
+    resource: ../../../src
+    exclude: ../../../src/{Client,Entity,Migrations,Model,Resources,Tests,Widget}

@@ -9,33 +9,17 @@
  * file that was distributed with this source code.
  */
 
-use Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel;
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Craffft\CssStyleSelectorBundle\DCA\Field\CssStyleSelector;
 
 if (isset($GLOBALS['TL_DCA']['tl_form'])) {
-    // Palettes
-    foreach ($GLOBALS['TL_DCA']['tl_form']['palettes'] as $k => $v) {
-        $GLOBALS['TL_DCA']['tl_form']['palettes'][$k] = str_replace(',attributes', ',cssStyleSelector,attributes', $v);
+    if (isset($GLOBALS['TL_DCA']['tl_form']['palettes'])) {
+        foreach ($GLOBALS['TL_DCA']['tl_form']['palettes'] as $k => $v) {
+            PaletteManipulator::create()
+                ->addField('cssStyleSelector', 'attributes', PaletteManipulator::POSITION_BEFORE)
+                ->applyToPalette($k, 'tl_form');
+        }
     }
 
-    // Fields
-    $GLOBALS['TL_DCA']['tl_form']['fields']['cssStyleSelector'] = [
-        'label' => &$GLOBALS['TL_LANG']['MSC']['cssStyleSelector'],
-        'exclude' => true,
-        'inputType' => 'select',
-        'options_callback' => function () {
-            return CssStyleSelectorModel::findStyleDesignationByNotDisabledType(
-                CssStyleSelectorModel::TYPE_FORM
-            );
-        },
-        'search' => true,
-        'eval' => ['chosen' => true, 'multiple' => true, 'tl_class' => 'clr'],
-        'save_callback' => [
-            function ($varValue, DataContainer $dc) {
-                $cssStyleSelectorUtil = new Craffft\CssStyleSelectorBundle\Util\CssStyleSelectorUtil();
-
-                return $cssStyleSelectorUtil->saveCssIdCallback($varValue, $dc, 'attributes');
-            },
-        ],
-        'sql' => "blob NULL",
-    ];
+    $GLOBALS['TL_DCA']['tl_form']['fields']['cssStyleSelector'] = CssStyleSelector::getFieldConfig();
 }

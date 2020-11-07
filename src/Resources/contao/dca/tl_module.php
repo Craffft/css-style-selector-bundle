@@ -9,29 +9,17 @@
  * file that was distributed with this source code.
  */
 
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Craffft\CssStyleSelectorBundle\DCA\Field\CssStyleSelector;
+
 if (isset($GLOBALS['TL_DCA']['tl_module'])) {
-    // Palettes
-    foreach ($GLOBALS['TL_DCA']['tl_module']['palettes'] as $k => $v) {
-        $GLOBALS['TL_DCA']['tl_module']['palettes'][$k] = str_replace(',cssID', ',cssStyleSelector,cssID', $v);
+    if (isset($GLOBALS['TL_DCA']['tl_module']['palettes'])) {
+        foreach ($GLOBALS['TL_DCA']['tl_module']['palettes'] as $k => $v) {
+            PaletteManipulator::create()
+                ->addField('cssStyleSelector', 'cssID', PaletteManipulator::POSITION_BEFORE)
+                ->applyToPalette($k, 'tl_module');
+        }
     }
 
-    // Fields
-    $GLOBALS['TL_DCA']['tl_module']['fields']['cssStyleSelector'] = array
-    (
-        'label'            => &$GLOBALS['TL_LANG']['MSC']['cssStyleSelector'],
-        'exclude'          => true,
-        'inputType'        => 'select',
-        'options_callback' => function () {
-            return \Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel::findStyleDesignationByNotDisabledType(
-                \Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel::TYPE_MODEL
-            );
-        },
-        'search'           => true,
-        'eval'             => array('chosen' => true, 'multiple' => true, 'tl_class' => 'clr'),
-        'save_callback'    => array
-        (
-            array('Craffft\\CssStyleSelectorBundle\\Util\\CssStyleSelectorUtil', 'saveCssIdCallback')
-        ),
-        'sql'              => "blob NULL"
-    );
+    $GLOBALS['TL_DCA']['tl_module']['fields']['cssStyleSelector'] = CssStyleSelector::getFieldConfig();
 }

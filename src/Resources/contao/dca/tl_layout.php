@@ -9,27 +9,17 @@
  * file that was distributed with this source code.
  */
 
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Craffft\CssStyleSelectorBundle\DCA\Field\CssStyleSelector;
+
 if (isset($GLOBALS['TL_DCA']['tl_layout'])) {
-    // Palettes
-    foreach ($GLOBALS['TL_DCA']['tl_layout']['palettes'] as $k => $v) {
-        $GLOBALS['TL_DCA']['tl_layout']['palettes'][$k] = str_replace(',cssClass', ',cssStyleSelector,cssClass', $v);
+    if (isset($GLOBALS['TL_DCA']['tl_layout']['palettes'])) {
+        foreach ($GLOBALS['TL_DCA']['tl_layout']['palettes'] as $k => $v) {
+            PaletteManipulator::create()
+                ->addField('cssStyleSelector', 'cssClass', PaletteManipulator::POSITION_BEFORE)
+                ->applyToPalette($k, 'tl_layout');
+        }
     }
 
-    // Fields
-    $GLOBALS['TL_DCA']['tl_layout']['fields']['cssStyleSelector'] = [
-        'label' => &$GLOBALS['TL_LANG']['MSC']['cssStyleSelector'],
-        'exclude' => true,
-        'inputType' => 'select',
-        'options_callback' => function () {
-            return \Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel::findStyleDesignationByNotDisabledType(
-                \Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel::TYPE_LAYOUT
-            );
-        },
-        'search' => true,
-        'eval' => ['chosen' => true, 'multiple' => true, 'tl_class' => 'clr'],
-        'save_callback' => [
-            ['Craffft\\CssStyleSelectorBundle\\Util\\CssStyleSelectorUtil', 'saveCssClassCallback'],
-        ],
-        'sql' => "blob NULL",
-    ];
+    $GLOBALS['TL_DCA']['tl_layout']['fields']['cssStyleSelector'] = CssStyleSelector::getFieldConfig();
 }
