@@ -15,13 +15,18 @@ use Contao\Database;
 use Contao\DataContainer;
 use Contao\Input;
 use Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel;
+use function array_key_exists;
+use function explode;
+use function str_replace;
+use function strpos;
 
 class CssStyleSelectorUtil
 {
     /**
-     * @param $varValue
+     * @param               $varValue
      * @param DataContainer $dc
-     * @param string $specialName
+     * @param string        $specialName
+     *
      * @return bool
      */
     public function saveCssIdCallback($varValue, DataContainer $dc, $specialName = 'cssID')
@@ -48,9 +53,10 @@ class CssStyleSelectorUtil
     }
 
     /**
-     * @param $varValue
+     * @param               $varValue
      * @param DataContainer $dc
-     * @param string $specialName
+     * @param string        $specialName
+     *
      * @return bool
      */
     public function saveCssClassCallback($varValue, DataContainer $dc, $specialName = 'cssClass')
@@ -78,7 +84,9 @@ class CssStyleSelectorUtil
 
     /**
      * onload_callback for the tl_content DCA to inject cssStyleSelector for any regular custom content element.
-     * @param  DataContainer $dc
+     *
+     * @param DataContainer $dc
+     *
      * @return void
      */
     public function onLoadContentCallback($dc)
@@ -86,23 +94,21 @@ class CssStyleSelectorUtil
         if (!($dc instanceof DataContainer)) {
             return;
         }
-        
+
         // Get the type
         $type = null;
         if (Input::post('FORM_SUBMIT') === $dc->table) {
             $type = Input::post('type');
-        }
-        else {
+        } else {
             if ($dc->activeRecord) {
                 $type = $dc->activeRecord->type;
             } else {
                 $table = $dc->table;
                 $id = $dc->id;
 
-                if (Input::get('target'))
-                {
-                    $table = \explode('.', Input::get('target'), 2)[0];
-                    $id = (int) \explode('.', Input::get('target'), 3)[2];
+                if (Input::get('target')) {
+                    $table = explode('.', Input::get('target'), 2)[0];
+                    $id = (int) explode('.', Input::get('target'), 3)[2];
                 }
 
                 if ($table && $id) {
@@ -115,34 +121,36 @@ class CssStyleSelectorUtil
         }
 
         // The palette might not exist
-        if (\array_key_exists($type, $GLOBALS['TL_DCA'][$dc->table]['palettes'])) {
+        if (array_key_exists($type, $GLOBALS['TL_DCA'][$dc->table]['palettes'])) {
 
             // Get the palette
             $palette = &$GLOBALS['TL_DCA'][$dc->table]['palettes'][$type];
 
             // Check if cssID is in the palette and cssStyleSelector is not
-            if (\strpos($palette, 'cssID') !== false &&
-                \strpos($palette, 'cssStyleSelector') === false) {
+            if (strpos($palette, 'cssID') !== false &&
+                strpos($palette, 'cssStyleSelector') === false) {
 
                 // Add the css style selector
-                $palette = \str_replace(',cssID', ',cssStyleSelector,cssID', $palette);
+                $palette = str_replace(',cssID', ',cssStyleSelector,cssID', $palette);
             }
         }
     }
 
     /**
-     * @param $intId
+     * @param        $intId
      * @param string $specialName
+     *
      * @return string
      */
     protected function getCssIDName($intId, $specialName = 'cssID')
     {
-        return $specialName . ((Input::get('act') == 'editAll') ? '_' . $intId : '');
+        return $specialName.((Input::get('act') == 'editAll') ? '_'.$intId : '');
     }
 
     /**
      * @param DataContainer $dc
-     * @param string $specialName
+     * @param string        $specialName
+     *
      * @return array
      */
     protected function getCssIDValue(DataContainer $dc, $specialName = 'cssID')
@@ -154,25 +162,27 @@ class CssStyleSelectorUtil
         }
 
         if (!is_array($arrCssID)) {
-            $arrCssID = array();
+            $arrCssID = [];
         }
 
         return $arrCssID;
     }
 
     /**
-     * @param $intId
+     * @param        $intId
      * @param string $specialName
+     *
      * @return string
      */
     protected function getCssClassName($intId, $specialName = 'cssClass')
     {
-        return $specialName . ((Input::get('act') == 'editAll') ? '_' . $intId : '');
+        return $specialName.((Input::get('act') == 'editAll') ? '_'.$intId : '');
     }
 
     /**
      * @param DataContainer $dc
-     * @param string $specialName
+     * @param string        $specialName
+     *
      * @return string
      */
     protected function getCssClassValue(DataContainer $dc, $specialName = 'cssClass')
@@ -192,6 +202,7 @@ class CssStyleSelectorUtil
 
     /**
      * @param string $strValue
+     *
      * @return array
      */
     protected function convertSerializedCssStyleSelectorToArray($strValue)
@@ -199,16 +210,16 @@ class CssStyleSelectorUtil
         $arrIds = deserialize($strValue);
 
         if (!is_array($arrIds)) {
-            $arrIds = array();
+            $arrIds = [];
         }
 
         return $arrIds;
     }
 
     /**
-     * @param array $arrClasses
+     * @param array         $arrClasses
      * @param DataContainer $dc
-     * @param string $specialName
+     * @param string        $specialName
      */
     protected function saveClassesToCssID(array $arrClasses, DataContainer $dc, $specialName = 'cssID')
     {
@@ -223,14 +234,14 @@ class CssStyleSelectorUtil
         Input::setPost($strCssIDName, $arrPostedCssID);
 
         $objDatabase = Database::getInstance();
-        $objDatabase->prepare("UPDATE $dc->table SET " . $specialName . "=? WHERE id=?")
+        $objDatabase->prepare("UPDATE $dc->table SET ".$specialName."=? WHERE id=?")
             ->execute(serialize($arrPostedCssID), $dc->id);
     }
 
     /**
-     * @param array $arrClasses
+     * @param array         $arrClasses
      * @param DataContainer $dc
-     * @param string $specialName
+     * @param string        $specialName
      */
     protected function saveClassesToCssClass(array $arrClasses, DataContainer $dc, $specialName = 'cssClass')
     {
@@ -244,12 +255,13 @@ class CssStyleSelectorUtil
         Input::setPost($strCssClassName, $strClasses);
 
         $objDatabase = Database::getInstance();
-        $objDatabase->prepare("UPDATE $dc->table SET " . $specialName . "=? WHERE id=?")
+        $objDatabase->prepare("UPDATE $dc->table SET ".$specialName."=? WHERE id=?")
             ->execute($strClasses, $dc->id);
     }
 
     /**
      * @param array $arrCssID
+     *
      * @return array
      */
     protected function getClassesFromCssIDAsArray(array $arrCssID)
@@ -263,12 +275,13 @@ class CssStyleSelectorUtil
 
     /**
      * @param array $arrIds
+     *
      * @return array
      */
     protected function getCssStyleSelectorClassesByIds(array $arrIds)
     {
         if (empty($arrIds)) {
-            return array();
+            return [];
         }
 
         $arrClasses = CssStyleSelectorModel::findCssClassesByIds($arrIds);
@@ -278,12 +291,13 @@ class CssStyleSelectorUtil
 
     /**
      * @param string $strTable
+     *
      * @return array
      */
     protected function getAllCssStyleSelectorClassesByTable($strTable)
     {
         if (empty($strTable)) {
-            return array();
+            return [];
         }
 
         $strType = strtolower(substr($strTable, 3));
@@ -296,11 +310,12 @@ class CssStyleSelectorUtil
 
     /**
      * @param array $arrClasses
+     *
      * @return array
      */
     protected function convertCombinedClassesToSingleClasses(array $arrClasses)
     {
-        $arrSingleClasses = array();
+        $arrSingleClasses = [];
 
         if (is_array($arrClasses)) {
             foreach ($arrClasses as $k => $v) {
@@ -315,6 +330,7 @@ class CssStyleSelectorUtil
 
     /**
      * @param string $strClasses
+     *
      * @return array
      */
     protected function convertClassesStringToArray($strClasses)
@@ -322,7 +338,7 @@ class CssStyleSelectorUtil
         $arrClasses = explode(' ', $strClasses);
 
         if (empty($arrClasses)) {
-            $arrClasses = array();
+            $arrClasses = [];
         }
 
         return $arrClasses;

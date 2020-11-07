@@ -34,7 +34,7 @@ class CssStyleSelectorModel extends Model
 
     public static function getAvailableTypes()
     {
-        return array(
+        return [
             self::TYPE_ARTICLE,
             self::TYPE_CALENDAR_EVENTS,
             self::TYPE_CONTENT,
@@ -43,12 +43,13 @@ class CssStyleSelectorModel extends Model
             self::TYPE_LAYOUT,
             self::TYPE_NEWS,
             self::TYPE_MODEL,
-            self::TYPE_PAGE
-        );
+            self::TYPE_PAGE,
+        ];
     }
 
     /**
      * @param array $arrIds
+     *
      * @return array
      */
     public static function findCssClassesByIds(array $arrIds)
@@ -56,26 +57,29 @@ class CssStyleSelectorModel extends Model
         $t = self::$strTable;
         $objDatabase = Database::getInstance();
 
-        $objCssStyleSelector = $objDatabase->prepare("SELECT cssClasses FROM $t WHERE id IN(". implode(',', array_map('intval', array_unique($arrIds))) .")")->execute();
+        $objCssStyleSelector = $objDatabase->prepare(
+            "SELECT cssClasses FROM $t WHERE id IN(".implode(',', array_map('intval', array_unique($arrIds))).")"
+        )->execute();
 
         return $objCssStyleSelector->fetchEach('cssClasses');
     }
 
     /**
      * @param $strType
+     *
      * @return array
      */
     public static function findCssClassesByNotDisabledType($strType)
     {
         if (!in_array($strType, self::getAvailableTypes())) {
-            return array();
+            return [];
         }
 
         $t = self::$strTable;
         $objDatabase = Database::getInstance();
 
         $objCssStyleSelector = $objDatabase
-            ->prepare("SELECT cssClasses FROM $t WHERE disableIn" . ucfirst($strType) . "=?")
+            ->prepare("SELECT cssClasses FROM $t WHERE disableIn".ucfirst($strType)."=?")
             ->execute(0);
 
         return $objCssStyleSelector->fetchEach('cssClasses');
@@ -83,19 +87,24 @@ class CssStyleSelectorModel extends Model
 
     /**
      * @param $strType
+     *
      * @return array
      */
     public static function findStyleDesignationByNotDisabledType($strType)
     {
         if (!in_array($strType, self::getAvailableTypes())) {
-            return array();
+            return [];
         }
 
         $t = self::$strTable;
         $objDatabase = Database::getInstance();
 
         $objCssStyleSelector = $objDatabase
-            ->prepare("SELECT id, styleDesignation AS styleDesignation FROM $t WHERE disableIn" . ucfirst($strType) . "=? ORDER BY styleDesignation ASC")
+            ->prepare(
+                "SELECT id, styleDesignation AS styleDesignation FROM $t WHERE disableIn".ucfirst(
+                    $strType
+                )."=? ORDER BY styleDesignation ASC"
+            )
             ->execute(0);
 
         $styles = $objCssStyleSelector->fetchEach('styleDesignation');

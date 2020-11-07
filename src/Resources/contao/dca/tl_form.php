@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+use Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel;
+
 if (isset($GLOBALS['TL_DCA']['tl_form'])) {
     // Palettes
     foreach ($GLOBALS['TL_DCA']['tl_form']['palettes'] as $k => $v) {
@@ -16,26 +18,24 @@ if (isset($GLOBALS['TL_DCA']['tl_form'])) {
     }
 
     // Fields
-    $GLOBALS['TL_DCA']['tl_form']['fields']['cssStyleSelector'] = array
-    (
-        'label'            => &$GLOBALS['TL_LANG']['MSC']['cssStyleSelector'],
-        'exclude'          => true,
-        'inputType'        => 'select',
+    $GLOBALS['TL_DCA']['tl_form']['fields']['cssStyleSelector'] = [
+        'label' => &$GLOBALS['TL_LANG']['MSC']['cssStyleSelector'],
+        'exclude' => true,
+        'inputType' => 'select',
         'options_callback' => function () {
-            return \Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel::findStyleDesignationByNotDisabledType(
-                \Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel::TYPE_FORM
+            return CssStyleSelectorModel::findStyleDesignationByNotDisabledType(
+                CssStyleSelectorModel::TYPE_FORM
             );
         },
-        'search'           => true,
-        'eval'             => array('chosen' => true, 'multiple' => true, 'tl_class' => 'clr'),
-        'save_callback'    => array
-        (
-            function ($varValue, \DataContainer $dc) {
+        'search' => true,
+        'eval' => ['chosen' => true, 'multiple' => true, 'tl_class' => 'clr'],
+        'save_callback' => [
+            function ($varValue, DataContainer $dc) {
                 $cssStyleSelectorUtil = new Craffft\CssStyleSelectorBundle\Util\CssStyleSelectorUtil();
 
                 return $cssStyleSelectorUtil->saveCssIdCallback($varValue, $dc, 'attributes');
-            }
-        ),
-        'sql'              => "blob NULL"
-    );
+            },
+        ],
+        'sql' => "blob NULL",
+    ];
 }
