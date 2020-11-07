@@ -149,9 +149,9 @@ class CssStyleSelectorModel extends Model
 
         $objCssStyleSelector = $objDatabase
             ->prepare(
-                "SELECT id, styleDesignation, cssClasses FROM $t WHERE disableIn".ucfirst(
+                "SELECT id, styleDesignation, styleGroup, cssClasses FROM $t WHERE disableIn".ucfirst(
                     $strType
-                )."=? ORDER BY styleDesignation ASC"
+                )."=? ORDER BY styleGroup, styleDesignation ASC"
             )
             ->execute(0);
 
@@ -163,8 +163,20 @@ class CssStyleSelectorModel extends Model
                 $value .= ' ('.$item['cssClasses'].')';
             }
 
-            $styles[$item['id']] = $value;
+            if ($item['styleGroup']) {
+                $styles[$item['styleGroup']][$item['id']] = $value;
+            } else {
+                $styles[$item['id']] = $value;
+            }
         }
+
+        foreach ($styles as $style) {
+            if (is_array($style)) {
+                natsort($style);
+            }
+        }
+
+        natsort($styles);
 
         return $styles;
     }

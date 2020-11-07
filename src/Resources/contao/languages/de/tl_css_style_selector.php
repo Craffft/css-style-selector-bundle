@@ -23,6 +23,10 @@ $GLOBALS['TL_LANG']['tl_css_style_selector']['styleDesignation'] = [
     'Stil Bezeichnung',
     'Bitte geben Sie eine Stil Bezeichnung ein.',
 ];
+$GLOBALS['TL_LANG']['tl_css_style_selector']['styleGroup'] = [
+    'Gruppe',
+    'Hier können Sie den Stil einer Gruppe zuweisen, um etwas die Übersicht zu behalten. Soll der Stil keiner Gruppe zugewiesen werden, dann lassen Sie dieses Feld einfach leer.',
+];
 $GLOBALS['TL_LANG']['tl_css_style_selector']['cssClasses'] = [
     'CSS-Klassen',
     'Bitte geben Sie eine oder mehrere CSS-Klassen mit jeweils einem Leerzeichen getrennt ein.',

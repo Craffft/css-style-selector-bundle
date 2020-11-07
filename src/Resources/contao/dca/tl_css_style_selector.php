@@ -26,38 +26,15 @@ $GLOBALS['TL_DCA']['tl_css_style_selector'] = [
     // List
     'list' => [
         'sorting' => [
-            'mode' => 11,
-            'fields' => ['styleDesignation'],
+            'mode' => 1,
+            'flag' => 11,
+            'fields' => ['styleGroup', 'styleDesignation'],
             'panelLayout' => 'filter;search,limit',
         ],
         'label' => [
             'fields' => [
                 'styleDesignation',
-                'cssClasses',
-                'articleEnabled',
-                'calendarEventEnabled',
-                'contentEnabled',
-                'formEnabled',
-                'formFieldEnabled',
-                'layoutEnabled',
-                'moduleEnabled',
-                'newsEnabled',
-                'pageEnabled',
             ],
-            'showColumns' => true,
-            'label_callback' => function ($row, $label, DataContainer $dc, $args) {
-                $args[2] = $GLOBALS['TL_LANG']['MSC'][($row['disableInArticle'] ? 'no' : 'yes')];
-                $args[3] = $GLOBALS['TL_LANG']['MSC'][($row['disableInCalendarEvent'] ? 'no' : 'yes')];
-                $args[4] = $GLOBALS['TL_LANG']['MSC'][($row['disableInContent'] ? 'no' : 'yes')];
-                $args[5] = $GLOBALS['TL_LANG']['MSC'][($row['disableInForm'] ? 'no' : 'yes')];
-                $args[6] = $GLOBALS['TL_LANG']['MSC'][($row['disableInFormField'] ? 'no' : 'yes')];
-                $args[7] = $GLOBALS['TL_LANG']['MSC'][($row['disableInLayout'] ? 'no' : 'yes')];
-                $args[8] = $GLOBALS['TL_LANG']['MSC'][($row['disableInModule'] ? 'no' : 'yes')];
-                $args[9] = $GLOBALS['TL_LANG']['MSC'][($row['disableInNews'] ? 'no' : 'yes')];
-                $args[10] = $GLOBALS['TL_LANG']['MSC'][($row['disableInPage'] ? 'no' : 'yes')];
-
-                return $args;
-            },
         ],
         'global_operations' => [
             'all' => [
@@ -93,7 +70,7 @@ $GLOBALS['TL_DCA']['tl_css_style_selector'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{style_legend},styleDesignation;{css_legend},cssClasses;{permissions_legend},disableInArticle,disableInContent,disableInCalendarEvent,disableInForm,disableInFormField,disableInLayout,disableInModule,disableInNews,disableInPage',
+        'default' => '{style_legend},styleDesignation,styleGroup;{css_legend},cssClasses;{permissions_legend},disableInArticle,disableInContent,disableInCalendarEvent,disableInForm,disableInFormField,disableInLayout,disableInModule,disableInNews,disableInPage',
     ],
     // Fields
     'fields' => [
@@ -109,6 +86,14 @@ $GLOBALS['TL_DCA']['tl_css_style_selector'] = [
             'search' => true,
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'styleGroup' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_css_style_selector']['styleGroup'],
+            'exclude' => true,
+            'inputType' => 'text',
+            'filter' => true,
+            'eval' => ['chosen' => true, 'multiple' => false, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
         'cssClasses' => [

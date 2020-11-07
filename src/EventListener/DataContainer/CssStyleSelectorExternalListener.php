@@ -16,7 +16,7 @@ use Contao\DataContainer;
 use Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel;
 use Craffft\CssStyleSelectorBundle\Util\CssStyleSelectorUtil;
 
-class CssStyleSelectorListener
+class CssStyleSelectorExternalListener
 {
     /**
      * @Callback(table="tl_form", target="fields.cssStyleSelector.options")
