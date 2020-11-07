@@ -11,6 +11,7 @@
 
 namespace Craffft\CssStyleSelectorBundle\Models;
 
+use Contao\Config;
 use Contao\Database;
 use Contao\Model;
 
@@ -148,15 +149,22 @@ class CssStyleSelectorModel extends Model
 
         $objCssStyleSelector = $objDatabase
             ->prepare(
-                "SELECT id, styleDesignation AS styleDesignation FROM $t WHERE disableIn".ucfirst(
+                "SELECT id, styleDesignation, cssClasses FROM $t WHERE disableIn".ucfirst(
                     $strType
                 )."=? ORDER BY styleDesignation ASC"
             )
             ->execute(0);
 
-        $styles = $objCssStyleSelector->fetchEach('styleDesignation');
+        $styles = [];
+        foreach ($objCssStyleSelector->fetchAllAssoc() as $item) {
+            $value = $item['styleDesignation'];
 
-        natsort($styles);
+            if (Config::get('cssStyleSelectorAddClassesToListItem') && $item['cssClasses'] != '') {
+                $value .= ' ('.$item['cssClasses'].')';
+            }
+
+            $styles[$item['id']] = $value;
+        }
 
         return $styles;
     }
