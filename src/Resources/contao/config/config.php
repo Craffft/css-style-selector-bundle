@@ -12,5 +12,4 @@
 $GLOBALS['BE_MOD']['design']['cssStyleSelector'] = array
 (
     'tables' => array('tl_css_style_selector'),
-    'icon'   => 'bundles/craffftcssstyleselector/icon.png'
 );
