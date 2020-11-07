@@ -28,12 +28,14 @@ class Plugin implements BundlePluginInterface
     {
         return [
             BundleConfig::create(CraffftCssStyleSelectorBundle::class)
-                ->setLoadAfter([
-                    ContaoCoreBundle::class, 
-                    ContaoNewsBundle::class,
-                    ContaoCalendarBundle::class,
-                    RockSolidCustomElementsBundle::class
-                ])
+                ->setLoadAfter(
+                    [
+                        ContaoCoreBundle::class,
+                        ContaoNewsBundle::class,
+                        ContaoCalendarBundle::class,
+                        RockSolidCustomElementsBundle::class,
+                    ]
+                )
                 ->setReplace(['css-style-selector']),
         ];
     }

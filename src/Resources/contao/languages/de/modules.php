@@ -12,4 +12,7 @@
 /**
  * Back end modules
  */
-$GLOBALS['TL_LANG']['MOD']['cssStyleSelector'] = array('CSS Stile', 'Hier können CSS Stile mit vordefinierten CSS-Klassen erstellt werden.');
+$GLOBALS['TL_LANG']['MOD']['cssStyleSelector'] = [
+    'CSS Stile',
+    'Hier können CSS Stile mit vordefinierten CSS-Klassen erstellt werden.',
+];

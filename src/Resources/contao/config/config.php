@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-$GLOBALS['BE_MOD']['design']['cssStyleSelector'] = array
-(
-    'tables' => array('tl_css_style_selector'),
-);
+$GLOBALS['BE_MOD']['design']['cssStyleSelector'] = [
+    'tables' => ['tl_css_style_selector'],
+];

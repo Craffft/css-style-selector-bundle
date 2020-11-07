@@ -12,26 +12,28 @@
 if (isset($GLOBALS['TL_DCA']['tl_calendar_events']) && isset($GLOBALS['TL_DCA']['tl_calendar_events']['palettes'])) {
     // Palettes
     foreach ($GLOBALS['TL_DCA']['tl_calendar_events']['palettes'] as $k => $v) {
-        $GLOBALS['TL_DCA']['tl_calendar_events']['palettes'][$k] = str_replace(',cssClass', ',cssStyleSelector,cssClass', $v);
+        $GLOBALS['TL_DCA']['tl_calendar_events']['palettes'][$k] = str_replace(
+            ',cssClass',
+            ',cssStyleSelector,cssClass',
+            $v
+        );
     }
 
     // Fields
-    $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['cssStyleSelector'] = array
-    (
-        'label'            => &$GLOBALS['TL_LANG']['MSC']['cssStyleSelector'],
-        'exclude'          => true,
-        'inputType'        => 'select',
+    $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['cssStyleSelector'] = [
+        'label' => &$GLOBALS['TL_LANG']['MSC']['cssStyleSelector'],
+        'exclude' => true,
+        'inputType' => 'select',
         'options_callback' => function () {
             return \Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel::findStyleDesignationByNotDisabledType(
                 \Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel::TYPE_CALENDAR_EVENTS
             );
         },
-        'search'           => true,
-        'eval'             => array('chosen' => true, 'multiple' => true, 'tl_class' => 'clr'),
-        'save_callback'    => array
-        (
-            array('Craffft\\CssStyleSelectorBundle\\Util\\CssStyleSelectorUtil', 'saveCssClassCallback')
-        ),
-        'sql'              => "blob NULL"
-    );
+        'search' => true,
+        'eval' => ['chosen' => true, 'multiple' => true, 'tl_class' => 'clr'],
+        'save_callback' => [
+            ['Craffft\\CssStyleSelectorBundle\\Util\\CssStyleSelectorUtil', 'saveCssClassCallback'],
+        ],
+        'sql' => "blob NULL",
+    ];
 }
