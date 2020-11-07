@@ -15,12 +15,15 @@ use Craffft\CssStyleSelectorBundle\DCA\Field\CssStyleSelector;
 if (isset($GLOBALS['TL_DCA']['tl_form_field'])) {
     if (isset($GLOBALS['TL_DCA']['tl_form_field']['palettes'])) {
         foreach ($GLOBALS['TL_DCA']['tl_form_field']['palettes'] as $k => $v) {
+            if ($k === '__selector__') {
+                continue;
+            }
+
             PaletteManipulator::create()
-                ->addField('cssStyleSelector', 'class', PaletteManipulator::POSITION_BEFORE)
+                ->addField('cssStyleSelector', 'class', PaletteManipulator::POSITION_PREPEND)
                 ->applyToPalette($k, 'tl_form_field');
         }
     }
 
-    // Fields
     $GLOBALS['TL_DCA']['tl_form_field']['fields']['cssStyleSelector'] = CssStyleSelector::getFieldConfig();
 }

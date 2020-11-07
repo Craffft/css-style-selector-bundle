@@ -15,8 +15,12 @@ use Craffft\CssStyleSelectorBundle\DCA\Field\CssStyleSelector;
 if (isset($GLOBALS['TL_DCA']['tl_news'])) {
     if (isset($GLOBALS['TL_DCA']['tl_news']['palettes'])) {
         foreach ($GLOBALS['TL_DCA']['tl_news']['palettes'] as $k => $v) {
+            if ($k === '__selector__') {
+                continue;
+            }
+
             PaletteManipulator::create()
-                ->addField('cssStyleSelector', 'cssClass', PaletteManipulator::POSITION_BEFORE)
+                ->addField('cssStyleSelector', 'cssClass', PaletteManipulator::POSITION_PREPEND)
                 ->applyToPalette($k, 'tl_news');
         }
     }
