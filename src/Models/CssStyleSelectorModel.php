@@ -159,7 +159,7 @@ class CssStyleSelectorModel extends Model
         foreach ($objCssStyleSelector->fetchAllAssoc() as $item) {
             $value = $item['styleDesignation'];
 
-            if (Config::get('cssStyleSelectorAddClassesToListItem') && $item['cssClasses'] != '') {
+            if ($item['cssClasses'] !== '' && Config::get('cssStyleSelectorAddClassesToListItem')) {
                 $value .= ' ('.$item['cssClasses'].')';
             }
 
