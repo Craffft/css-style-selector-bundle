@@ -19,7 +19,15 @@ use Craffft\CssStyleSelectorBundle\Util\CssStyleSelectorUtil;
 class CssStyleSelectorExternalListener
 {
     /**
+     * @Callback(table="tl_article", target="fields.cssStyleSelector.options")
+     * @Callback(table="tl_calendar_events", target="fields.cssStyleSelector.options")
+     * @Callback(table="tl_content", target="fields.cssStyleSelector.options")
      * @Callback(table="tl_form", target="fields.cssStyleSelector.options")
+     * @Callback(table="tl_form_field", target="fields.cssStyleSelector.options")
+     * @Callback(table="tl_layout", target="fields.cssStyleSelector.options")
+     * @Callback(table="tl_module", target="fields.cssStyleSelector.options")
+     * @Callback(table="tl_news", target="fields.cssStyleSelector.options")
+     * @Callback(table="tl_page", target="fields.cssStyleSelector.options")
      */
     public function getCssStyleSelectorOptions(DataContainer $dc): array
     {
