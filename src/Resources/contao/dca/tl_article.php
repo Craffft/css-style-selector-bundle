@@ -20,7 +20,7 @@ if (isset($GLOBALS['TL_DCA']['tl_article'])) {
             }
 
             PaletteManipulator::create()
-                ->addField('cssStyleSelector', 'cssID', PaletteManipulator::POSITION_PREPEND)
+                ->addField('cssStyleSelector', 'cssID', PaletteManipulator::POSITION_BEFORE)
                 ->applyToPalette($k, 'tl_article');
         }
     }

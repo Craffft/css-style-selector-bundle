@@ -20,7 +20,7 @@ if (isset($GLOBALS['TL_DCA']['tl_calendar_events'])) {
             }
 
             PaletteManipulator::create()
-                ->addField('cssStyleSelector', 'cssClass', PaletteManipulator::POSITION_PREPEND)
+                ->addField('cssStyleSelector', 'cssClass', PaletteManipulator::POSITION_BEFORE)
                 ->applyToPalette($k, 'tl_calendar_events');
         }
     }

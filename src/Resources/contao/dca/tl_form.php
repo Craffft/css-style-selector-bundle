@@ -20,7 +20,7 @@ if (isset($GLOBALS['TL_DCA']['tl_form'])) {
             }
 
             PaletteManipulator::create()
-                ->addField('cssStyleSelector', 'attributes', PaletteManipulator::POSITION_PREPEND)
+                ->addField('cssStyleSelector', 'attributes', PaletteManipulator::POSITION_BEFORE)
                 ->applyToPalette($k, 'tl_form');
         }
     }
