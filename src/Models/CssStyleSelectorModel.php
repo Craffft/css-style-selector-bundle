@@ -27,13 +27,9 @@ class CssStyleSelectorModel extends Model
     const TYPE_MODEL = 'module';
     const TYPE_PAGE = 'page';
 
-    /**
-     * Name of the table
-     * @var string
-     */
     protected static $strTable = 'tl_css_style_selector';
 
-    public static function getAvailableTypes()
+    public static function getAvailableTypes(): array
     {
         return [
             self::TYPE_ARTICLE,
@@ -48,7 +44,7 @@ class CssStyleSelectorModel extends Model
         ];
     }
 
-    public static function getTypeByTable(string $table)
+    public static function getTypeByTable(string $table): string
     {
         switch ($table) {
             case 'tl_article':
@@ -95,31 +91,21 @@ class CssStyleSelectorModel extends Model
         return $type;
     }
 
-    /**
-     * @param array $arrIds
-     *
-     * @return array
-     */
-    public static function findCssClassesByIds(array $arrIds)
+    public static function findCssClassesByIds(array $ids): array
     {
         $t = self::$strTable;
         $objDatabase = Database::getInstance();
 
         $objCssStyleSelector = $objDatabase->prepare(
-            "SELECT cssClasses FROM $t WHERE id IN(".implode(',', array_map('intval', array_unique($arrIds))).")"
+            "SELECT cssClasses FROM $t WHERE id IN(".implode(',', array_map('intval', array_unique($ids))).")"
         )->execute();
 
         return $objCssStyleSelector->fetchEach('cssClasses');
     }
 
-    /**
-     * @param $strType
-     *
-     * @return array
-     */
-    public static function findCssClassesByNotDisabledType($strType)
+    public static function findCssClassesByNotDisabledType(string $type): array
     {
-        if (!in_array($strType, self::getAvailableTypes())) {
+        if (!in_array($type, self::getAvailableTypes())) {
             return [];
         }
 
@@ -127,20 +113,15 @@ class CssStyleSelectorModel extends Model
         $objDatabase = Database::getInstance();
 
         $objCssStyleSelector = $objDatabase
-            ->prepare("SELECT cssClasses FROM $t WHERE disableIn".ucfirst($strType)."=?")
+            ->prepare("SELECT cssClasses FROM $t WHERE disableIn".ucfirst($type)."=?")
             ->execute(0);
 
         return $objCssStyleSelector->fetchEach('cssClasses');
     }
 
-    /**
-     * @param $strType
-     *
-     * @return array
-     */
-    public static function findStyleDesignationByNotDisabledType($strType)
+    public static function findStyleDesignationByNotDisabledType(string $type): array
     {
-        if (!in_array($strType, self::getAvailableTypes())) {
+        if (!in_array($type, self::getAvailableTypes())) {
             return [];
         }
 
@@ -150,7 +131,7 @@ class CssStyleSelectorModel extends Model
         $objCssStyleSelector = $objDatabase
             ->prepare(
                 "SELECT id, styleDesignation, styleGroup, cssClasses FROM $t WHERE disableIn".ucfirst(
-                    $strType
+                    $type
                 )."=? ORDER BY styleGroup, styleDesignation ASC"
             )
             ->execute(0);

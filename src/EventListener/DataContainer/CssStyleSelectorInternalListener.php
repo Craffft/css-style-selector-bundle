@@ -19,7 +19,7 @@ class CssStyleSelectorInternalListener
     /**
      * @Callback(table="tl_css_style_selector", target="list.label.label")
      */
-    public function labelCallback($row, $label, DataContainer $dc, $args)
+    public function labelCallback(array $row, string $label, DataContainer $dc, array $args): string
     {
         $fieldNames = [
             'disableInArticle',

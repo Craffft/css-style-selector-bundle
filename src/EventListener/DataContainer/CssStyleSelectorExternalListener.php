@@ -45,7 +45,7 @@ class CssStyleSelectorExternalListener
      * @Callback(table="tl_content", target="fields.cssStyleSelector.save")
      * @Callback(table="tl_module", target="fields.cssStyleSelector.save")
      */
-    public function saveCssStyleSelectorToCssId($value, DataContainer $dc): string
+    public function saveCssStyleSelectorToCssId(?string $value, DataContainer $dc): string
     {
         $cssStyleSelectorUtil = new CssStyleSelectorUtil();
 
@@ -58,7 +58,7 @@ class CssStyleSelectorExternalListener
      * @Callback(table="tl_news", target="fields.cssStyleSelector.save")
      * @Callback(table="tl_page", target="fields.cssStyleSelector.save")
      */
-    public function saveCssStyleSelectorToCssClass($value, DataContainer $dc): string
+    public function saveCssStyleSelectorToCssClass(?string $value, DataContainer $dc): string
     {
         $cssStyleSelectorUtil = new CssStyleSelectorUtil();
 
@@ -68,7 +68,7 @@ class CssStyleSelectorExternalListener
     /**
      * @Callback(table="tl_form", target="fields.cssStyleSelector.save")
      */
-    public function saveCssStyleSelectorToAttributes($value, DataContainer $dc): string
+    public function saveCssStyleSelectorToAttributes(?string $value, DataContainer $dc): string
     {
         $cssStyleSelectorUtil = new CssStyleSelectorUtil();
 
@@ -78,7 +78,7 @@ class CssStyleSelectorExternalListener
     /**
      * @Callback(table="tl_form_field", target="fields.cssStyleSelector.save")
      */
-    public function saveCssStyleSelectorToClass($value, DataContainer $dc): string
+    public function saveCssStyleSelectorToClass(?string $value, DataContainer $dc): string
     {
         $cssStyleSelectorUtil = new CssStyleSelectorUtil();
 

@@ -13,7 +13,7 @@ namespace Craffft\CssStyleSelectorBundle\DCA\Field;
 
 class CssStyleSelector
 {
-    public static function getFieldConfig()
+    public static function getFieldConfig(): array
     {
         return [
             'label' => &$GLOBALS['TL_LANG']['MSC']['cssStyleSelector'],

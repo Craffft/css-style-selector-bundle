@@ -14,6 +14,7 @@ namespace Craffft\CssStyleSelectorBundle\Util;
 use Contao\Database;
 use Contao\DataContainer;
 use Contao\Input;
+use Contao\StringUtil;
 use Craffft\CssStyleSelectorBundle\Models\CssStyleSelectorModel;
 use function array_key_exists;
 use function explode;
@@ -22,74 +23,60 @@ use function strpos;
 
 class CssStyleSelectorUtil
 {
-    /**
-     * @param               $varValue
-     * @param DataContainer $dc
-     * @param string        $specialName
-     *
-     * @return bool
-     */
-    public function saveCssIdCallback($varValue, DataContainer $dc, $specialName = 'cssID')
+    public function saveCssIdCallback(?string $value, DataContainer $dc, string $specialName = 'cssID'): ?string
     {
         if (!$dc->activeRecord) {
-            return false;
+            return null;
         }
 
-        $arrCssID = $this->getCssIDValue($dc, $specialName);
-        $arrClasses = $this->getClassesFromCssIDAsArray($arrCssID);
+        $value = (string) $value;
+
+        $cssID = $this->getCssIDValue($dc, $specialName);
+        $classes = $this->getClassesFromCssIDAsArray($cssID);
 
         // Remove all known cssStyleSelector classes from cssID classes
-        $arrClasses = array_diff($arrClasses, $this->getAllCssStyleSelectorClassesByTable($dc->table));
+        $classes = array_diff($classes, $this->getAllCssStyleSelectorClassesByTable($dc->table));
 
         // Add all selected classes of CssStyleSelector to the classes of cssID
-        $arrCssClassesSelectorIds = $this->convertSerializedCssStyleSelectorToArray($varValue);
-        $arrClasses = array_merge($arrClasses, $this->getCssStyleSelectorClassesByIds($arrCssClassesSelectorIds));
+        $cssClassesSelectorIds = $this->convertSerializedCssStyleSelectorToArray($value);
+        $classes = array_merge($classes, $this->getCssStyleSelectorClassesByIds($cssClassesSelectorIds));
 
-        $arrClasses = array_unique($arrClasses);
+        $classes = array_unique($classes);
 
-        $this->saveClassesToCssID($arrClasses, $dc, $specialName);
+        $this->saveClassesToCssID($classes, $dc, $specialName);
 
-        return $varValue;
+        return $value;
     }
 
-    /**
-     * @param               $varValue
-     * @param DataContainer $dc
-     * @param string        $specialName
-     *
-     * @return bool
-     */
-    public function saveCssClassCallback($varValue, DataContainer $dc, $specialName = 'cssClass')
+    public function saveCssClassCallback(?string $value, DataContainer $dc, string $specialName = 'cssClass'): ?string
     {
         if (!$dc->activeRecord) {
-            return false;
+            return null;
         }
 
-        $strCssClasses = $this->getCssClassValue($dc, $specialName);
-        $arrClasses = $this->convertClassesStringToArray($strCssClasses);
+        $value = (string) $value;
+
+        $cssClasses = $this->getCssClassValue($dc, $specialName);
+        $classes = $this->convertClassesStringToArray($cssClasses);
 
         // Remove all known cssStyleSelector classes from cssID classes
-        $arrClasses = array_diff($arrClasses, $this->getAllCssStyleSelectorClassesByTable($dc->table));
+        $classes = array_diff($classes, $this->getAllCssStyleSelectorClassesByTable($dc->table));
 
         // Add all selected classes of CssStyleSelector to the classes of cssID
-        $arrCssClassesSelectorIds = $this->convertSerializedCssStyleSelectorToArray($varValue);
-        $arrClasses = array_merge($arrClasses, $this->getCssStyleSelectorClassesByIds($arrCssClassesSelectorIds));
+        $cssClassesSelectorIds = $this->convertSerializedCssStyleSelectorToArray($value);
+        $classes = array_merge($classes, $this->getCssStyleSelectorClassesByIds($cssClassesSelectorIds));
 
-        $arrClasses = array_unique($arrClasses);
+        $classes = array_unique($classes);
 
-        $this->saveClassesToCssClass($arrClasses, $dc, $specialName);
+        $this->saveClassesToCssClass($classes, $dc, $specialName);
 
-        return $varValue;
+        return $value;
     }
 
     /**
      * onload_callback for the tl_content DCA to inject cssStyleSelector for any regular custom content element.
-     *
-     * @param DataContainer $dc
-     *
-     * @return void
      */
-    public function onLoadContentCallback($dc)
+    public function onLoadContentCallback(?DataContainer $dc): void
     {
         if (!($dc instanceof DataContainer)) {
             return;
@@ -136,211 +123,145 @@ class CssStyleSelectorUtil
         }
     }
 
-    /**
-     * @param        $intId
-     * @param string $specialName
-     *
-     * @return string
-     */
-    protected function getCssIDName($intId, $specialName = 'cssID')
+    protected function getCssIDName(int $id, $specialName = 'cssID'): string
     {
-        return $specialName.((Input::get('act') == 'editAll') ? '_'.$intId : '');
+        return $specialName.((Input::get('act') === 'editAll') ? '_'.$id : '');
     }
 
-    /**
-     * @param DataContainer $dc
-     * @param string        $specialName
-     *
-     * @return array
-     */
-    protected function getCssIDValue(DataContainer $dc, $specialName = 'cssID')
+    protected function getCssIDValue(DataContainer $dc, string $specialName = 'cssID'): array
     {
-        $arrCssID = Input::post($this->getCssIDName($dc->id, $specialName));
+        $cssID = Input::post($this->getCssIDName($dc->id, $specialName));
 
-        if ($arrCssID === null) {
-            $arrCssID = deserialize($dc->activeRecord->cssID);
+        if ($cssID === null) {
+            $cssID = StringUtil::deserialize($dc->activeRecord->cssID);
         }
 
-        if (!is_array($arrCssID)) {
-            $arrCssID = [];
+        if (!is_array($cssID)) {
+            $cssID = [];
         }
 
-        return $arrCssID;
+        return $cssID;
     }
 
-    /**
-     * @param        $intId
-     * @param string $specialName
-     *
-     * @return string
-     */
-    protected function getCssClassName($intId, $specialName = 'cssClass')
+    protected function getCssClassName(int $id, $specialName = 'cssClass'): string
     {
-        return $specialName.((Input::get('act') == 'editAll') ? '_'.$intId : '');
+        return $specialName.((Input::get('act') === 'editAll') ? '_'.$id : '');
     }
 
-    /**
-     * @param DataContainer $dc
-     * @param string        $specialName
-     *
-     * @return string
-     */
-    protected function getCssClassValue(DataContainer $dc, $specialName = 'cssClass')
+    protected function getCssClassValue(DataContainer $dc, string $specialName = 'cssClass'): string
     {
-        $strCssClass = Input::post($this->getCssClassName($dc->id, $specialName));
+        $cssClass = Input::post($this->getCssClassName($dc->id, $specialName));
 
-        if ($strCssClass === null) {
-            $strCssClass = $dc->activeRecord->cssClass;
+        if ($cssClass === null) {
+            $cssClass = $dc->activeRecord->cssClass;
         }
 
-        if (!is_string($strCssClass)) {
-            $strCssClass = '';
+        if (!is_string($cssClass)) {
+            $cssClass = '';
         }
 
-        return $strCssClass;
+        return $cssClass;
     }
 
-    /**
-     * @param string $strValue
-     *
-     * @return array
-     */
-    protected function convertSerializedCssStyleSelectorToArray($strValue)
+    protected function convertSerializedCssStyleSelectorToArray(string $value): array
     {
-        $arrIds = deserialize($strValue);
+        $ids = StringUtil::deserialize($value);
 
-        if (!is_array($arrIds)) {
-            $arrIds = [];
+        if (!is_array($ids)) {
+            $ids = [];
         }
 
-        return $arrIds;
+        return $ids;
     }
 
-    /**
-     * @param array         $arrClasses
-     * @param DataContainer $dc
-     * @param string        $specialName
-     */
-    protected function saveClassesToCssID(array $arrClasses, DataContainer $dc, $specialName = 'cssID')
+    protected function saveClassesToCssID(array $classes, DataContainer $dc, string $specialName = 'cssID'): void
     {
-        $strCssIDName = $this->getCssIDName($dc->id, $specialName);
+        $cssIDName = $this->getCssIDName($dc->id, $specialName);
 
-        $arrPostedCssID = Input::post($strCssIDName);
-        $arrPostedCssID[1] = implode(' ', $arrClasses);
-        $arrPostedCssID[1] = str_replace('  ', ' ', $arrPostedCssID[1]);
-        $arrPostedCssID[1] = trim($arrPostedCssID[1]);
+        $postedCssID = Input::post($cssIDName);
+        $postedCssID[1] = implode(' ', $classes);
+        $postedCssID[1] = str_replace('  ', ' ', $postedCssID[1]);
+        $postedCssID[1] = trim($postedCssID[1]);
 
-        $dc->activeRecord->cssID = serialize($arrPostedCssID);
-        Input::setPost($strCssIDName, $arrPostedCssID);
+        $dc->activeRecord->cssID = serialize($postedCssID);
+        Input::setPost($cssIDName, $postedCssID);
 
         $objDatabase = Database::getInstance();
         $objDatabase->prepare("UPDATE $dc->table SET ".$specialName."=? WHERE id=?")
-            ->execute(serialize($arrPostedCssID), $dc->id);
+            ->execute(serialize($postedCssID), $dc->id);
     }
 
-    /**
-     * @param array         $arrClasses
-     * @param DataContainer $dc
-     * @param string        $specialName
-     */
-    protected function saveClassesToCssClass(array $arrClasses, DataContainer $dc, $specialName = 'cssClass')
+    protected function saveClassesToCssClass(array $arrClasses, DataContainer $dc, string $specialName = 'cssClass'): void
     {
-        $strCssClassName = $this->getCssClassName($dc->id, $specialName);
+        $cssClassName = $this->getCssClassName($dc->id, $specialName);
 
-        $strClasses = implode(' ', $arrClasses);
-        $strClasses = str_replace('  ', ' ', $strClasses);
-        $strClasses = trim($strClasses);
+        $classes = implode(' ', $arrClasses);
+        $classes = str_replace('  ', ' ', $classes);
+        $classes = trim($classes);
 
-        $dc->activeRecord->cssClass = $strClasses;
-        Input::setPost($strCssClassName, $strClasses);
+        $dc->activeRecord->cssClass = $classes;
+        Input::setPost($cssClassName, $classes);
 
         $objDatabase = Database::getInstance();
         $objDatabase->prepare("UPDATE $dc->table SET ".$specialName."=? WHERE id=?")
-            ->execute($strClasses, $dc->id);
+            ->execute($classes, $dc->id);
     }
 
-    /**
-     * @param array $arrCssID
-     *
-     * @return array
-     */
-    protected function getClassesFromCssIDAsArray(array $arrCssID)
+    protected function getClassesFromCssIDAsArray(array $cssID): array
     {
-        list($strId, $strClasses) = $arrCssID;
+        [$id, $classes] = $cssID;
 
-        $arrClasses = $this->convertClassesStringToArray($strClasses);
-
-        return $arrClasses;
+        return $this->convertClassesStringToArray($classes);
     }
 
-    /**
-     * @param array $arrIds
-     *
-     * @return array
-     */
-    protected function getCssStyleSelectorClassesByIds(array $arrIds)
+    protected function getCssStyleSelectorClassesByIds(array $ids): array
     {
-        if (empty($arrIds)) {
+        if (empty($ids)) {
             return [];
         }
 
-        $arrClasses = CssStyleSelectorModel::findCssClassesByIds($arrIds);
+        $classes = CssStyleSelectorModel::findCssClassesByIds($ids);
 
-        return $this->convertCombinedClassesToSingleClasses($arrClasses);
+        return $this->convertCombinedClassesToSingleClasses($classes);
     }
 
-    /**
-     * @param string $strTable
-     *
-     * @return array
-     */
-    protected function getAllCssStyleSelectorClassesByTable($strTable)
+    protected function getAllCssStyleSelectorClassesByTable(string $strTable): array
     {
         if (empty($strTable)) {
             return [];
         }
 
-        $strType = strtolower(substr($strTable, 3));
+        $type = strtolower(substr($strTable, 3));
 
-        $arrClasses = CssStyleSelectorModel::findCssClassesByNotDisabledType($strType);
-        $arrClasses = $this->convertCombinedClassesToSingleClasses($arrClasses);
+        $classes = CssStyleSelectorModel::findCssClassesByNotDisabledType($type);
+        $classes = $this->convertCombinedClassesToSingleClasses($classes);
 
-        return $arrClasses;
+        return $classes;
     }
 
-    /**
-     * @param array $arrClasses
-     *
-     * @return array
-     */
-    protected function convertCombinedClassesToSingleClasses(array $arrClasses)
+    protected function convertCombinedClassesToSingleClasses(array $classes): array
     {
-        $arrSingleClasses = [];
+        $singleClasses = [];
 
-        if (is_array($arrClasses)) {
-            foreach ($arrClasses as $k => $v) {
-                $arrSingleClasses = array_merge($arrSingleClasses, $this->convertClassesStringToArray($v));
+        if (is_array($classes)) {
+            foreach ($classes as $k => $v) {
+                $singleClasses = array_merge($singleClasses, $this->convertClassesStringToArray($v));
             }
         }
 
-        $arrSingleClasses = array_unique($arrSingleClasses);
+        $singleClasses = array_unique($singleClasses);
 
-        return $arrSingleClasses;
+        return $singleClasses;
     }
 
-    /**
-     * @param string $strClasses
-     *
-     * @return array
-     */
-    protected function convertClassesStringToArray($strClasses)
+    protected function convertClassesStringToArray(string $strClasses): array
     {
-        $arrClasses = explode(' ', $strClasses);
+        $classes = explode(' ', $strClasses);
 
-        if (empty($arrClasses)) {
-            $arrClasses = [];
+        if (empty($classes)) {
+            $classes = [];
         }
 
-        return $arrClasses;
+        return $classes;
     }
 }

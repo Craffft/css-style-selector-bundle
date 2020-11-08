@@ -24,7 +24,7 @@ class Configuration implements ConfigurationInterface
     /**
      * @return TreeBuilder
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): void
     {
         $treeBuilder = new TreeBuilder('craffft_css_style_selector');
 
