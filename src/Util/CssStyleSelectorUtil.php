@@ -73,56 +73,6 @@ class CssStyleSelectorUtil
         return $value;
     }
 
-    /**
-     * onload_callback for the tl_content DCA to inject cssStyleSelector for any regular custom content element.
-     */
-    public function onLoadContentCallback(?DataContainer $dc): void
-    {
-        if (!($dc instanceof DataContainer)) {
-            return;
-        }
-
-        // Get the type
-        $type = null;
-        if (Input::post('FORM_SUBMIT') === $dc->table) {
-            $type = Input::post('type');
-        } else {
-            if ($dc->activeRecord) {
-                $type = $dc->activeRecord->type;
-            } else {
-                $table = $dc->table;
-                $id = $dc->id;
-
-                if (Input::get('target')) {
-                    $table = explode('.', Input::get('target'), 2)[0];
-                    $id = (int) explode('.', Input::get('target'), 3)[2];
-                }
-
-                if ($table && $id) {
-                    $record = Database::getInstance()->prepare("SELECT * FROM {$table} WHERE id=?")->execute($id);
-                    if ($record->next()) {
-                        $type = $record->type;
-                    }
-                }
-            }
-        }
-
-        // The palette might not exist
-        if (array_key_exists($type, $GLOBALS['TL_DCA'][$dc->table]['palettes'])) {
-
-            // Get the palette
-            $palette = &$GLOBALS['TL_DCA'][$dc->table]['palettes'][$type];
-
-            // Check if cssID is in the palette and cssStyleSelector is not
-            if (strpos($palette, 'cssID') !== false &&
-                strpos($palette, 'cssStyleSelector') === false) {
-
-                // Add the css style selector
-                $palette = str_replace(',cssID', ',cssStyleSelector,cssID', $palette);
-            }
-        }
-    }
-
     protected function getCssIDName(int $id, $specialName = 'cssID'): string
     {
         return $specialName.((Input::get('act') === 'editAll') ? '_'.$id : '');
