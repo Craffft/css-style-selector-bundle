@@ -10,5 +10,13 @@
  */
 
 $GLOBALS['BE_MOD']['design']['cssStyleSelector'] = [
-    'tables' => ['tl_css_style_selector'],
+    'tables' => [
+        'tl_css_style_selector',
+        'tl_css_style_selector_group',
+    ],
 ];
+
+if (defined('TL_MODE') && TL_MODE == 'BE')
+{
+    $GLOBALS['TL_CSS'][] = 'bundles/craffftcssstyleselector/style.css|static';
+}

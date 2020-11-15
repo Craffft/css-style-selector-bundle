@@ -1,0 +1,15 @@
+.header_edit_groups,
+.header_edit_styles {
+    padding: 3px 0 3px 21px;
+    background-position: left center;
+    background-repeat: no-repeat;
+    margin-left: 15px;
+}
+
+.header_edit_groups {
+    background-image: url('icon.png');
+}
+
+.header_edit_styles {
+    background-image: url('icon.png');
+}

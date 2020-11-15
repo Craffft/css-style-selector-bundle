@@ -22,15 +22,15 @@ class CssStyleSelectorInternalListener
     public function labelCallback(array $row, string $label, DataContainer $dc, array $args): string
     {
         $fieldNames = [
+            'disableInPage',
             'disableInArticle',
-            'disableInCalendarEvent',
             'disableInContent',
             'disableInForm',
             'disableInFormField',
+            'disableInNews',
+            'disableInCalendarEvent',
             'disableInLayout',
             'disableInModule',
-            'disableInNews',
-            'disableInPage',
         ];
 
         $html = '';
@@ -56,21 +56,23 @@ class CssStyleSelectorInternalListener
         ?DataContainer $dc
     ): string {
         $fieldNames = [
+            'pageEnabled',
             'articleEnabled',
-            'calendarEventEnabled',
             'contentEnabled',
             'formEnabled',
             'formFieldEnabled',
+            'newsEnabled',
+            'calendarEventEnabled',
             'layoutEnabled',
             'moduleEnabled',
-            'newsEnabled',
-            'pageEnabled',
         ];
 
         $html = '';
         foreach ($fieldNames as $fieldName) {
             $html .= '<td class="tl_folder_list">'.$GLOBALS['TL_LANG']['tl_css_style_selector'][$fieldName][0].'</td>';
         }
+
+        $group = $group ? $group : '-';
 
         return $group.'</td>'.$html.'<td class="tl_folder_list">&nbsp;</td>';
     }

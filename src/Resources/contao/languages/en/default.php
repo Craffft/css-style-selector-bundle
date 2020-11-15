@@ -16,3 +16,6 @@ $GLOBALS['TL_LANG']['MSC']['cssStyleSelector'] = [
     'CSS style selection',
     'You can select the CSS styles with the predefined CSS classes here.',
 ];
+
+$GLOBALS['TL_LANG']['MSC']['css_style_selector_groups'] = 'Edit groups';
+$GLOBALS['TL_LANG']['MSC']['css_style_selector_styles'] = 'Edit CSS styles';

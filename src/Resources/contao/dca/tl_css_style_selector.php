@@ -37,6 +37,12 @@ $GLOBALS['TL_DCA']['tl_css_style_selector'] = [
             ],
         ],
         'global_operations' => [
+            'css_style_selector_groups' => [
+                'label' => &$GLOBALS['TL_LANG']['MSC']['css_style_selector_groups'],
+                'href' => 'table=tl_css_style_selector_group',
+                'class' => 'header_edit_groups',
+                'attributes' => 'onclick="Backend.getScrollOffset()" accesskey="e"',
+            ],
             'all' => [
                 'label' => &$GLOBALS['TL_LANG']['MSC']['all'],
                 'href' => 'act=select',
@@ -91,10 +97,12 @@ $GLOBALS['TL_DCA']['tl_css_style_selector'] = [
         'styleGroup' => [
             'label' => &$GLOBALS['TL_LANG']['tl_css_style_selector']['styleGroup'],
             'exclude' => true,
-            'inputType' => 'text',
+            'inputType' => 'select',
+            'foreignKey' => 'tl_css_style_selector_group.name',
             'filter' => true,
-            'eval' => ['chosen' => true, 'multiple' => false, 'tl_class' => 'w50'],
-            'sql' => "varchar(255) NOT NULL default ''",
+            'eval' => ['chosen' => true, 'multiple' => false, 'includeBlankOption' => true, 'tl_class' => 'w50'],
+            'sql' => "int(10) unsigned NOT NULL default 0",
+            'relation' => ['table' => 'tl_css_style_selector_group', 'type' => 'hasOne', 'load' => 'lazy'],
         ],
         'cssClasses' => [
             'label' => &$GLOBALS['TL_LANG']['tl_css_style_selector']['cssClasses'],
