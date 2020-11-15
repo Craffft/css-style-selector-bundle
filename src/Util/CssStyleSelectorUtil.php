@@ -181,7 +181,7 @@ class CssStyleSelectorUtil
             return [];
         }
 
-        $type = strtolower(substr($strTable, 3));
+        $type = CssStyleSelectorModel::getTypeByTable($strTable);
 
         $classes = CssStyleSelectorModel::findCssClassesByNotDisabledType($type);
         $classes = $this->convertCombinedClassesToSingleClasses($classes);
