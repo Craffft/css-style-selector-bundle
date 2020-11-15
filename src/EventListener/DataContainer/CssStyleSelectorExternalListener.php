@@ -51,7 +51,7 @@ class CssStyleSelectorExternalListener
     {
         $cssStyleSelectorUtil = new CssStyleSelectorUtil();
 
-        return $cssStyleSelectorUtil->saveCssIdCallback($value, $dc);
+        return $cssStyleSelectorUtil->saveCallback($value, $dc, true, 'cssID');
     }
 
     /**
@@ -64,7 +64,7 @@ class CssStyleSelectorExternalListener
     {
         $cssStyleSelectorUtil = new CssStyleSelectorUtil();
 
-        return $cssStyleSelectorUtil->saveCssClassCallback($value, $dc);
+        return $cssStyleSelectorUtil->saveCallback($value, $dc, false, 'cssClass');
     }
 
     /**
@@ -74,7 +74,7 @@ class CssStyleSelectorExternalListener
     {
         $cssStyleSelectorUtil = new CssStyleSelectorUtil();
 
-        return $cssStyleSelectorUtil->saveCssIdCallback($value, $dc, 'attributes');
+        return $cssStyleSelectorUtil->saveCallback($value, $dc, true, 'attributes');
     }
 
     /**
@@ -84,7 +84,7 @@ class CssStyleSelectorExternalListener
     {
         $cssStyleSelectorUtil = new CssStyleSelectorUtil();
 
-        return $cssStyleSelectorUtil->saveCssIdCallback($value, $dc, 'class');
+        return $cssStyleSelectorUtil->saveCallback($value, $dc, true, 'class');
     }
 
     /**
