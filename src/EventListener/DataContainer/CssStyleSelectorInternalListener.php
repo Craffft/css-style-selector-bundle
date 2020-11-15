@@ -11,8 +11,19 @@
 
 namespace Craffft\CssStyleSelectorBundle\EventListener\DataContainer;
 
+use Contao\ArticleModel;
+use Contao\CalendarEventsModel;
+use Contao\ContentModel;
 use Contao\CoreBundle\ServiceAnnotation\Callback;
 use Contao\DataContainer;
+use Contao\FormFieldModel;
+use Contao\FormModel;
+use Contao\LayoutModel;
+use Contao\ModuleModel;
+use Contao\NewsModel;
+use Contao\PageModel;
+use Contao\StringUtil;
+use Craffft\CssStyleSelectorBundle\Util\CssStyleSelectorUtil;
 
 class CssStyleSelectorInternalListener
 {
@@ -75,5 +86,53 @@ class CssStyleSelectorInternalListener
         $group = $group ? $group : '-';
 
         return $group.'</td>'.$html.'<td class="tl_folder_list">&nbsp;</td>';
+    }
+
+    /**
+     * @Callback(table="tl_css_style_selector", target="config.onsubmit")
+     */
+    public function submitCallback(?DataContainer $dc): void
+    {
+        if (TL_MODE !== 'BE') {
+            return;
+        }
+
+        // TODO 1: Search in Tables and add cssstyleselector item to existing and matching classes
+        // TODO 2: Search in Tables and update css classes on existing entries
+
+        $modelsMap = [
+            ArticleModel::class => 'cssID',
+            CalendarEventsModel::class => 'cssClass',
+            ContentModel::class => 'cssID',
+            FormFieldModel::class => 'class',
+            FormModel::class => 'attributes',
+            LayoutModel::class => 'cssClass',
+            ModuleModel::class => 'cssID',
+            NewsModel::class => 'cssClass',
+            PageModel::class => 'cssClass',
+        ];
+
+        foreach ($modelsMap as $modelClass => $field) {
+            $model = $modelClass::findAll();
+
+            if ($model !== null) {
+                while ($model->next()) {
+                    $cssStyleSelectorUtil = new CssStyleSelectorUtil();
+                    $hasClassesOfSelector = $cssStyleSelectorUtil->hasClassesOfSelector(
+                        $dc->activeRecord->cssClasses,
+                        $model->{$field},
+                        true
+                    );
+
+                    if ($hasClassesOfSelector) {
+                        $cssStyleSelector = StringUtil::deserialize($model->cssStyleSelector);
+                        $cssStyleSelector[] = $dc->id;
+                        $cssStyleSelector = array_unique($cssStyleSelector);
+                        $model->cssStyleSelector = StringUtil::deserialize($cssStyleSelector);
+                        $model->save();
+                    }
+                }
+            }
+        }
     }
 }

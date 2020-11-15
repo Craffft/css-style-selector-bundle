@@ -29,7 +29,8 @@ class CssStyleSelectorUtil
 
         $value = (string) $value;
 
-        $classes = $this->getClassesArray($dc, $name, $cssIdType);
+        $classesValue = $this->getValueFromPostOrActiveRecord($dc, $name, $cssIdType);
+        $classes = $this->getClassesArrayFromValue($classesValue, $cssIdType);
 
         // Remove all known cssStyleSelector classes from cssID classes
         $classes = array_diff($classes, $this->getAllCssStyleSelectorClassesByTable($dc->table));
@@ -44,23 +45,33 @@ class CssStyleSelectorUtil
         return $value;
     }
 
-    protected function getClassesArray(DataContainer $dc, string $name, bool $cssIdType): array
+    public function hasClassesOfSelector(
+        string $selectorClassesValue,
+        string $relationTableClassesValue,
+        bool $cssIdType
+    ) {
+        $selectorClasses = $this->convertClassesStringToArray(StringUtil::deserialize($selectorClassesValue));
+        $relationTableClasses = $this->getClassesArrayFromValue($relationTableClassesValue, $cssIdType);
+
+        return (count(array_intersect($relationTableClasses, $selectorClasses)) === count($selectorClasses));
+    }
+
+    protected function getValueFromPostOrActiveRecord(DataContainer $dc, string $name)
     {
         $value = Input::post($this->getName($dc->id, $name));
 
         if ($value === null) {
             $value = $dc->activeRecord->{$name};
-
-            if ($cssIdType) {
-                $value = StringUtil::deserialize($value);
-            }
         }
 
-        if ($cssIdType) {
-            if (!is_array($value)) {
-                $value = [];
-            }
+        return $value;
+    }
 
+    protected function getClassesArrayFromValue($value, bool $cssIdType): array
+    {
+        $value = StringUtil::deserialize($value);
+
+        if (is_array($value)) {
             $value = count($value) === 2 ? $value[1] : '';
         }
 
